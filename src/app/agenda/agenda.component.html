@@ -1,0 +1,69 @@
+<p-menubar [model]="items">
+    <label class="capitalize">Bienvenue
+        <strong>{{utilisateurPrenom}}</strong>
+    </label>
+    <button pButton label="Deconnexion" icon="fa-sign-out" (click)="confirmerDeconnexion()"></button>
+</p-menubar>
+<p-confirmDialog></p-confirmDialog>
+<p-growl [value]="msgs"></p-growl>
+<div>
+<form id="evenement-form" *ngIf="forModifyAgenda || forAddAgenda">
+    <h3>Agenda</h3>
+    <span class="ui-float-label">
+        <input id="float-input" type="text" pInputText [(ngModel)]="activeAgenda.nom" name="agendaName">
+        <label for="float-input">Nom de l'agenda</label>
+    </span>
+    <br/>
+    <button pButton (click)="ajouterAgenda()" label="Sauvegarder" class="ui-button-success" icon="fa-check"></button>
+    <button pButton (click)="clearActiveAgenda()" label="Annuler" class="ui-button-warning" icon="fa-reply"></button>
+</form>
+<form id="evenement-form" *ngIf="forModifyEvenement || forAddEvenement">
+    <h3>Evènement</h3>
+    <span class="ui-float-label">
+        <input id="float-input" type="text" pInputText [(ngModel)]="activeEvenement.titre" name="titreEvenement">
+        <label for="float-input">Titre de l'évenement</label>
+    </span>
+    <br/>
+    <span class="ui-float-label">
+        <input id="float-input" type="text" pInputText [(ngModel)]="activeEvenement.descriptif" name="descEvenement">
+        <label for="float-input">Déscription</label>
+    </span>
+    <br/>
+    <span class="ui-float-label">
+        <input id="float-input" type="text" pInputText [(ngModel)]="activeEvenement.lieu" name="lieuEvenement">
+        <label for="float-input">Lieu</label>
+    </span>
+    <div id="date-choix">
+        <span>
+            Date début
+            <p-calendar [showTime]="true" [(ngModel)]="activeEvenement.dateDebut" name="dateEvenement"></p-calendar>
+        </span>
+        <span>
+            Date de fin
+            <p-calendar [showTime]="true" [(ngModel)]="activeEvenement.dateFin" name="dateFinEvenement"></p-calendar>
+        </span>
+        <br/>
+    </div>
+    <span class="first">
+        <Strong>Priorité: {{activeEvenement.priorite/10}}</Strong>
+        <p-slider [(ngModel)]="activeEvenement.priorite" [style]="{'width':'200px'}" [step]="10" name="prioEvenement"></p-slider>
+    </span>
+    <div class="ui-g-12">
+        <p-checkbox name="group1" value="rappel" label="Avec rappel"></p-checkbox>
+    </div>
+
+    <button pButton (click)="ajouterEvenement()" label="Sauvegarder" class="ui-button-success" icon="fa-check"></button>
+    <button pButton (click)="clearActiveEvenement()" label="Annuler" class="ui-button-warning" icon="fa-reply"></button>
+</form>
+<p-contextMenu [target]="pschedule" [model]="ctxItems"></p-contextMenu>
+
+
+
+<div #pschedule id="calendar">
+    <div id="currentEvent" *ngIf="eventSelected">
+                Evènement séléctionné:<h1>{{activeEvenement.titre}}</h1>
+                <button pButton (click)="forModifyEvenement=true;eventSelected=false;" label="Modifier" class="ui-button-warning" icon="fa-edit"></button>
+                <button pButton (click)="supprimerEvenement()" label="Supprimer" class="ui-button-error" icon="fa-trash"></button>
+            </div>
+    <p-schedule [events]="events" [header]="header" [editable]="true" locale="fr" (onEventClick)="showEventDetails($event)"></p-schedule>
+        </div>

@@ -1,0 +1,15 @@
+<div class="text-center">
+    <h1>Veuillez vous identifier</h1>
+    <span class="ui-float-label">
+      <input id="float-input1" type="email" size="30" pInputText name="email" [(ngModel)]="compte.email">
+      <label for="float-input1">Email</label>
+    </span>
+    <br/>
+    <span class="ui-float-label">
+      <input id="float-input2" type="password" size="30" pInputText name="motDePasse"[(ngModel)]="compte.motDePasse">
+      <label for="float-input2">Mot de passe</label>
+    </span>
+    <p-message severity="warn" text="Email ou mot de passe incorrect" *ngIf="nonAutorise"></p-message><br/>  
+    <button pButton (click)="sAuthentifier()" label="Se connecter" icon="fa-check"></button>
+    <p >&copy; AOS 2017-2018</p>
+</div>
